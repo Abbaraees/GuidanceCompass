@@ -11,6 +11,9 @@
       ],
       "@constants/*": [
         "./src/constants/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
       ]
       
     }
