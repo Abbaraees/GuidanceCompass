@@ -4,13 +4,14 @@ import { Text, View } from '@/src/components/Themed'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import InputField from '@/src/components/InputField'
 import Button from '@/src/components/Button'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const router = useRouter()
   return (
     <KeyboardAwareScrollView>
       <SafeAreaView style={styles.container}>
@@ -28,7 +29,7 @@ const SignIn = () => {
           onChange={setPassword}
           secureTextEntry
         />
-        <Button title='Login' onPress={() => {}}/>
+        <Button title='Login' onPress={() => {router.replace('/(main)')}}/>
         <View  style={{backgroundColor: '#eee'}}>
           <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20}}>Or</Text>
           <View style={styles.socialLinks}>
