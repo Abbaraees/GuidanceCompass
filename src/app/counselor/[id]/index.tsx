@@ -5,8 +5,11 @@ import Header from '@/src/components/Header'
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import Colors from '@/src/constants/Colors'
 import Button from '@/src/components/Button'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 
 const CounselorDetail = () => {
+  const router = useRouter()
+  const { id } = useLocalSearchParams()
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -42,7 +45,7 @@ const CounselorDetail = () => {
           </View>
 
           <View style={styles.actions}>
-            <Button title='Chat' onPress={() => {}}/>
+            <Button title='Chat' onPress={() => router.navigate(`/counselor/${id}/chat`)}/>
             <Button title='Book Appointment' onPress={() => {}} />
           </View>
         </View>
