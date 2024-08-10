@@ -1,18 +1,21 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 
 type CardProsType = {
   title: string,
-  image: string
+  image: string,
+  onPress: () => void
 }
-const Card = ({ title, image }: CardProsType) => {
+const Card = ({ title, image, onPress }: CardProsType) => {
   return (
-    <View style={styles.card}>
-      <Image 
-        source={{ uri: image}}
-        style={styles.image}
-      />
-      <Text style={styles.title}>{title}</Text>
-    </View>
+    <Pressable onPress={onPress}>
+      <View style={styles.card}>
+        <Image 
+          source={{ uri: image}}
+          style={styles.image}
+        />
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    </Pressable>
   )
 }
 

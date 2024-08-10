@@ -4,8 +4,9 @@ import EditScreenInfo from '@components/EditScreenInfo';
 import { Text, View } from '@components/Themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/src/constants/Colors';
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import Card from '@/src/components/Card';
+import { router } from 'expo-router';
 
 export default function TabOneScreen() {
   return (
@@ -14,7 +15,7 @@ export default function TabOneScreen() {
 
         <View style={styles.header} lightColor={Colors.light.tint}>
           <View style={styles.headerBtns} lightColor={Colors.light.tint}>
-            <FontAwesome name='shopping-cart' color='#fff' size={24} />
+            <AntDesign name='mail' color='#fff' size={24} />
             <FontAwesome name='share-alt' color='#fff' size={24} />
             <FontAwesome name='search' color='#fff' size={24} />
           </View>
@@ -30,6 +31,7 @@ export default function TabOneScreen() {
                   <Card 
                     title={`Resource ${index}`}
                     image={'https://pixabay.com/get/g8bcfd324d44125c98ddb8df212c95d73de154a9d9ed5ae46c28ff781353dee21aef8761f25001fc37de0e42649471c5337c4b025596ccd95077734f22ef26ca9e840679e2d41c1b2fe80a76c29685aab_1280.jpg'} 
+                    onPress={() => router.push('/(main)/resources/1')}
                   />
                 </View>)} 
               numColumns={2} 
@@ -45,6 +47,7 @@ export default function TabOneScreen() {
                   <Card 
                     title={`Counselor ${index}`}
                     image={'https://cdn.pixabay.com/photo/2019/06/29/04/36/counselor-4305394_1280.jpg'} 
+                    onPress={() => router.push('/counselor/1')}
                   />
                 </View>)} 
               numColumns={2} 
