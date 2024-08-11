@@ -5,12 +5,13 @@ import Colors from '../constants/Colors'
 type ButtonPropsType = {
   title: string,
   outline?: boolean,
+  disabled?: boolean,
   onPress: () => void
 }
 
-const Button = ({title, outline, onPress}: ButtonPropsType) => {
+const Button = ({title, outline, disabled, onPress}: ButtonPropsType) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
+    <TouchableOpacity onPress={onPress} style={styles.button} disabled={disabled}>
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   )

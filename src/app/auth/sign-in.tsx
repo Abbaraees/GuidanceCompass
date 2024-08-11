@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Text, View } from '@/src/components/Themed'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import InputField from '@/src/components/InputField'
@@ -7,11 +7,23 @@ import Button from '@/src/components/Button'
 import { Link, useRouter } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import signinViewModel from './signinViewModel'
+import { observer } from 'mobx-react'
 
-const SignIn = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+const SignIn = observer(() => {
   const router = useRouter()
+
+ 
+  useEffect(() => {
+    if (signinViewModel.loginError) {
+      Alert.alert("Login Failed", signinViewModel.loginMessage)
+    }
+  }, [signinViewModel.loginError])
+
+  if (signinViewModel.loginSuccess) {
+    router.replace('/(main)')
+  }
+
   return (
     <KeyboardAwareScrollView>
       <SafeAreaView style={styles.container}>
@@ -19,17 +31,17 @@ const SignIn = () => {
         <InputField 
           label='Email'
           placeholder='Enter your email'
-          value={email}
-          onChange={setEmail}
+          value={signinViewModel.email}
+          onChange={(email) => signinViewModel.setEmail(email)}
         />
         <InputField 
-          value={password}
+          value={signinViewModel.password}
           placeholder='Enter your password'
           label='Password' 
-          onChange={setPassword}
+          onChange={(password) => signinViewModel.setPassword(password)}
           secureTextEntry
         />
-        <Button title='Login' onPress={() => {router.replace('/(main)')}}/>
+        <Button title='Login' onPress={() => signinViewModel.login()} disabled={signinViewModel.isLoading} />
         <View  style={{backgroundColor: '#eee'}}>
           <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20}}>Or</Text>
           <View style={styles.socialLinks}>
@@ -44,7 +56,7 @@ const SignIn = () => {
       </SafeAreaView>
     </KeyboardAwareScrollView>
   )
-}
+})
 
 const styles =StyleSheet.create({
   container: {
