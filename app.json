@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Guidance Compass",
-    "slug": "Guidance Compass",
+    "name": "GuidanceCompass",
+    "slug": "GuidanceCompass",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.abba_raees.GuidanceCompass"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "dc54e487-18e6-4d84-9830-093ac4df9f3f"
+      }
     }
   }
 }
