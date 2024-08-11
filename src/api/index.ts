@@ -50,7 +50,7 @@ class GuidanceCompassApi {
     })
   }
 
-  async setRole(id: string | undefined, role: string) {
+  async setRole(id: string, role: string) {
     const {error} = await supabase
       .from('profiles')
       .update({role})
