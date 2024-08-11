@@ -18,21 +18,23 @@ const Signup = observer(() => {
     if (signupViewModel.signupError) {
       Alert.alert("Signup Failed", signupViewModel.signupMessage)
     }
-  }, [signupViewModel.signupError])
 
-  if (signupViewModel.signupSuccess) {
-    console.log("Created")
-    return Alert.prompt(
-      'Signup Success', 
-      'Acoount Successfuly Created', 
-      [
-        {
-          text: 'Proceed to login', 
-          onPress: () => {router.navigate('/auth/sign-in')}
-        }
-      ])
-    
-  }
+    else if (signupViewModel.signupSuccess) {
+      // return Alert.alert(
+      //   'Signup Success', 
+      //   'Account Successfuly Created', 
+      //   [
+      //     {
+      //       text: 'Proceed to login', 
+      //       onPress: () => {router.navigate('/auth/sign-in')}
+      //     }
+      //   ])
+      
+    }
+  }, [signupViewModel.signupError, signupViewModel.signupSuccess])
+
+
+  
 
   return (
     <KeyboardAwareScrollView style={{marginTop: StatusBar.currentHeight}}>
@@ -125,4 +127,5 @@ const styles =StyleSheet.create({
     fontSize: 16
   }
 })
+
 export default Signup

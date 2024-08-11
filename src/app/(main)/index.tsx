@@ -7,8 +7,13 @@ import Colors from '@/src/constants/Colors';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import Card from '@/src/components/Card';
 import { router } from 'expo-router';
+import AuthProvider, { useAuth } from '@/src/providers/AuthProvider';
+import { observer } from 'mobx-react';
+import { useEffect, useState } from 'react';
 
-export default function TabOneScreen() {
+const Home = observer(() => {
+  const { profile } = useAuth()
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{flex: 1, width: '100%'}}>
@@ -19,7 +24,7 @@ export default function TabOneScreen() {
             <FontAwesome name='share-alt' color='#fff' size={24} />
             <FontAwesome name='search' color='#fff' size={24} />
           </View>
-          <Text style={styles.greetingText} lightColor='#fff' darkColor='#efe'>Hi, Muhammad Lawal!</Text>
+          <Text style={styles.greetingText} lightColor='#fff' darkColor='#efe'>Hi, {profile?.full_name}</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.section}>
@@ -58,7 +63,9 @@ export default function TabOneScreen() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+})
+
+export default Home
 
 const styles = StyleSheet.create({
   container: {

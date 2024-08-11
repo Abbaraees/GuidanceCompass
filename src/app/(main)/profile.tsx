@@ -6,6 +6,7 @@ import Colors from '@/src/constants/Colors'
 import { AntDesign, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import Button from '@/src/components/Button'
 import { useRouter } from 'expo-router'
+import supabase from '@/src/libs/supabase'
 
 const ProfileLayout = () => {
   const router = useRouter()
@@ -21,7 +22,7 @@ const ProfileLayout = () => {
           style={styles.profileImage}
         />
         <View style={styles.profileSections}>
-          <Pressable style={styles.section} onPress={() => router.navigate('/profile-settings\\update-profile')}>
+          <Pressable style={styles.section} onPress={() => router.navigate('/profile-settings/update-profile')}>
             <AntDesign name='user' color={'#5e5e5e'} size={26} />
             <Text style={styles.sectionText}>Profile</Text>
           </Pressable>
@@ -34,7 +35,10 @@ const ProfileLayout = () => {
             <Text style={styles.sectionText}>About</Text>
           </Pressable>
           <View style={{width: '100%', marginTop: 'auto'}}> 
-            <Button title='Logout' onPress={() => {}} />
+            <Button title='Logout' onPress={() => {
+              supabase.auth.signOut()
+              router.navigate('/auth/sign-in')
+            }} />
           </View>
         </View>
       </View>
