@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 
 type InputFieldPropsType = {
-  value: string,
+  value: string | null,
   placeholder?: string,
   label: string,
   secureTextEntry?: boolean
@@ -14,7 +14,7 @@ const InputField = ({ value, placeholder, label, secureTextEntry, onChange}: Inp
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <TextInput 
-        value={value}
+        value={value ? value : ''}
         placeholder={placeholder}
         onChangeText={onChange}
         style={styles.textInput}
