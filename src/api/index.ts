@@ -1,29 +1,5 @@
-import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import supabase from "../libs/supabase"
-import { Tables, UpdateProfileDataTypes } from "../types";
-
-
-type LoginResultType = {success: boolean, message: string | undefined, data: {
-  user: User,
-  session: Session;
-  weakPassword?: WeakPassword | undefined;
-} | {
-  user: null;
-  session: null;
-  weakPassword?: null | undefined;
-}}
-
-type SignupResultType = {
-  success: boolean,
-  message: string | undefined,
-  data: {
-    user: User | null;
-    session: Session | null;
-  } | {
-      user: null;
-      session: null;
-  }
-}
+import { LoginResultType, SignupResultType, Tables, UpdateProfileDataTypes } from "../types";
 
 class GuidanceCompassApi {
 
@@ -76,6 +52,29 @@ class GuidanceCompassApi {
 
     return new Promise<{success: boolean, message: string | undefined}>((resolve) => {
       resolve({success: !error, message: error?.message})
+    })
+  }
+
+  async fetchResources() {
+    const { data, error } = await supabase
+      .from('resources')
+      .select("*")
+      
+    return new Promise<{success: boolean, data: Tables<'resources'>[] | null}>((resolve) => {
+      resolve({success: !error, data: data})
+    })
+      
+  }
+
+  async getResource(id: number) {
+    const { data, error } = await supabase
+      .from('resources')
+      .select("*")
+      .eq('id', id)
+      .single()
+      
+    return new Promise<{success: boolean, data: Tables<'resources'> | null}>((resolve) => {
+      resolve({success: !error, data: data})
     })
   }
 
