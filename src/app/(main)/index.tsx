@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 
 const Home = observer(() => {
   const { profile } = useAuth()
+
+  console.log(profile)
   
   return (
     <SafeAreaView style={styles.container}>

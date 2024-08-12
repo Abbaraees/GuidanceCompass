@@ -8,7 +8,7 @@ const index = () => {
   const router = useRouter()
 
   const navigateToApp = () => {
-    router.replace('/auth')
+    router.replace('/(main)')
   }
 
   return (

@@ -1,6 +1,6 @@
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import supabase from "../libs/supabase"
-import { Tables } from "../types";
+import { Tables, UpdateProfileDataTypes } from "../types";
 
 
 type LoginResultType = {success: boolean, message: string | undefined, data: {
@@ -51,11 +51,11 @@ class GuidanceCompassApi {
     })
   }
 
-  async setRole(id: string, role: string) {
+  async setRole(id: string | undefined, role: string) {
     const {error} = await supabase
       .from('profiles')
       .update({role})
-      .eq('id', id)
+      .eq('id', id === undefined ? -1 : id)
       .select()
 
     return new Promise<{success: boolean}>((resolve, reject) => {
@@ -67,7 +67,7 @@ class GuidanceCompassApi {
     })
   }
 
-  async updateProfile(id: string, data: Tables<'profiles'>) {
+  async updateProfile(id: string, data: UpdateProfileDataTypes) {
     const {error} = await supabase
       .from('profiles')
       .update({...data})

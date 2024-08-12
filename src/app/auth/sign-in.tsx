@@ -7,21 +7,29 @@ import Button from '@/src/components/Button'
 import { Link, useRouter } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import signinViewModel from './signinViewModel'
 import { observer } from 'mobx-react'
+import SignInViewModel from './signinViewModel'
+import { useAuth } from '@/src/providers/AuthProvider'
 
 const SignIn = observer(() => {
   const router = useRouter()
+
+  const [signinViewModel, setSigninViewModel] = useState<SignInViewModel>()
+
+  useEffect(() => {
+    setSigninViewModel(new SignInViewModel())
+  }, [])
  
   useEffect(() => {
-    if (signinViewModel.loginError) {
-      Alert.alert("Login Failed", signinViewModel.loginMessage)
+    if (signinViewModel?.loginError) {
+      Alert.alert("Login Failed", signinViewModel?.loginMessage)
     }
-  }, [signinViewModel.loginError])
 
-  if (signinViewModel.loginSuccess) {
-    router.replace('/(main)')
-  }
+    if (signinViewModel?.loginSuccess) {
+      router.replace('/(main)')
+    }
+  }, [signinViewModel?.loginError, signinViewModel?.loginSuccess])
+
 
   return (
     <KeyboardAwareScrollView>
@@ -30,17 +38,17 @@ const SignIn = observer(() => {
         <InputField 
           label='Email'
           placeholder='Enter your email'
-          value={signinViewModel.email}
-          onChange={(email) => signinViewModel.setEmail(email)}
+          value={signinViewModel?.email}
+          onChange={(email) => signinViewModel?.setEmail(email)}
         />
         <InputField 
-          value={signinViewModel.password}
+          value={signinViewModel?.password}
           placeholder='Enter your password'
           label='Password' 
-          onChange={(password) => signinViewModel.setPassword(password)}
+          onChange={(password) => signinViewModel?.setPassword(password)}
           secureTextEntry
         />
-        <Button title='Login' onPress={() => signinViewModel.login()} disabled={signinViewModel.isLoading} />
+        <Button title='Login' onPress={() => signinViewModel?.login()} disabled={signinViewModel?.isLoading} />
         <View  style={{backgroundColor: '#eee'}}>
           <Text style={{textAlign: 'center', fontSize: 28, marginVertical: 20}}>Or</Text>
           <View style={styles.socialLinks}>

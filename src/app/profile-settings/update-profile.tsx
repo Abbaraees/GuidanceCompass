@@ -1,5 +1,5 @@
 import { StatusBar, StyleSheet, Text, View, Image, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Header from '@/src/components/Header'
 import InputField from '@/src/components/InputField'
@@ -7,29 +7,48 @@ import Button from '@/src/components/Button'
 import UpateProfileViewModel from './UpateProfileViewModel'
 import { useAuth } from '@/src/providers/AuthProvider'
 import { observer } from 'mobx-react'
-import { useRouter } from 'expo-router'
+import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router'
 
 const UpdateProfle = () => {
   const router = useRouter()
-  const { profile } = useAuth()
-  const [viewModel, setViewModel] = useState<UpateProfileViewModel>()
-  useEffect(() => {
-    const viewModel = new UpateProfileViewModel(profile)
-    setViewModel(viewModel)
-  }, [])
+  const { profile, fetchSession } = useAuth()
+  const { mode } = useLocalSearchParams()
+  const [viewModel, setViewModel] = useState(new UpateProfileViewModel(profile))
 
+  const isUpdating = typeof mode == 'string' ? mode == 'update' : mode[0] == 'update'
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchSession()
+      setViewModel(new UpateProfileViewModel(profile))
+
+      return () => {
+        console.log('This route is now unfocused.');
+      }
+    }, [])
+  );
+
+  // Run this effect when ever the update status chage
   useEffect(() => {
     if (viewModel?.updateError) {
       Alert.alert("Update Failed", viewModel?.updateMessage)
     }
+    
     if (viewModel?.updateSuccess) {
       viewModel?.setUpdateSuccess(false)
-      router.back()
+      fetchSession()
+      if (isUpdating) {
+        router.back()
+      }
+      else {
+        router.replace('/(main)')
+      }
     }
   }, [viewModel?.updateError, viewModel?.updateSuccess])
+
   return (
     <KeyboardAwareScrollView style={styles.container}>
-      <Header title='Profile' />
+      <Header title={!isUpdating ? 'Complete Your Profile' : 'Profile'} />
       <View style={styles.body}>
       <Image 
           source={{uri: 'https://cdn.pixabay.com/photo/2017/03/27/12/11/boy-2178303_1280.jpg'}}

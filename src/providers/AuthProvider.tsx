@@ -1,5 +1,5 @@
 import { Session } from '@supabase/supabase-js'
-import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react'
+import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { Tables } from '../types'
 import supabase from '../libs/supabase'
 
@@ -8,7 +8,8 @@ type AuthContextType = {
   session: Session | null,
   profile: Tables<'profiles'> | null,
   isLoading: boolean,
-  setProfile: (profile: any) => void
+  setProfile: (profile: any) => void,
+  fetchSession: () => void
 }
 
 
@@ -16,7 +17,8 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   profile: null,
   isLoading: true,
-  setProfile: (profile: Tables<'profiles'>) => {}
+  setProfile: (profile: Tables<'profiles'>) => {},
+  fetchSession: () => {}
 })
 
 
@@ -26,25 +28,25 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [profile, setProfile] = useState<Tables<'profiles'> | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const { data: {session}, error} = await supabase.auth.getSession()
+  const fetchSession = useCallback(async () => {
+    const { data: {session}, error} = await supabase.auth.getSession()
 
-      if (session) {
-        setSession(session)
-        const {data} = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session?.user.id)
-          .single()
-
-          setProfile(data)
-      }
-
-      setIsLoading(false)
+    if (session) {
+      setSession(session)
+      const {data} = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session?.user.id)
+        .single()
+        setProfile(data)
     }
-    
+
+    setIsLoading(false)
+  }, [])
+
+  useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
+      fetchSession()
       setSession(session)
     })
 
@@ -52,7 +54,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{session, profile, isLoading, setProfile}}>
+    <AuthContext.Provider value={{session, profile, isLoading, setProfile, fetchSession}}>
       {children}
     </AuthContext.Provider>
   )

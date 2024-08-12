@@ -65,4 +65,4 @@ class SignInViewModel {
     }
 }
 
-export default new SignInViewModel()
+export default SignInViewModel

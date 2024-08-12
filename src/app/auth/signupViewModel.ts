@@ -77,4 +77,4 @@ class SignupViewModel {
 
 }
 
-export default new SignupViewModel()
+export default SignupViewModel

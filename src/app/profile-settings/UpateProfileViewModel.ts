@@ -1,5 +1,5 @@
 import api from "@/src/api"
-import { Tables } from "@/src/types"
+import { Tables, UpdateProfileDataTypes } from "@/src/types"
 import { makeAutoObservable } from "mobx"
 
 class UpateProfileViewModel {
@@ -57,7 +57,7 @@ class UpateProfileViewModel {
   updateProfile = async () => {
     this.setUpdateError(false)
 
-    const data: Tables<'profiles'> = { 
+    const data: UpdateProfileDataTypes = { 
       available_hours: this.available_hours,
       avatar_url: this.avatar_url,
       date_of_birth: this.date_of_birth,
@@ -80,9 +80,6 @@ class UpateProfileViewModel {
       this.setUpdateError(true)
       this.setUpdateMessage(result.message)
     }
-
-
-
   }
 
 }

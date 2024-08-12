@@ -22,7 +22,7 @@ const ProfileLayout = () => {
           style={styles.profileImage}
         />
         <View style={styles.profileSections}>
-          <Pressable style={styles.section} onPress={() => router.navigate('/profile-settings/update-profile')}>
+          <Pressable style={styles.section} onPress={() => router.navigate('/profile-settings/update-profile?mode=update')}>
             <AntDesign name='user' color={'#5e5e5e'} size={26} />
             <Text style={styles.sectionText}>Profile</Text>
           </Pressable>
@@ -37,7 +37,7 @@ const ProfileLayout = () => {
           <View style={{width: '100%', marginTop: 'auto'}}> 
             <Button title='Logout' onPress={() => {
               supabase.auth.signOut()
-              router.navigate('/auth/sign-in')
+              router.replace('/auth/sign-in')
             }} />
           </View>
         </View>
