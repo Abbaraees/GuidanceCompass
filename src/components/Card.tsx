@@ -23,14 +23,10 @@ export default Card
 
 const styles = StyleSheet.create({
   card: {
-    // width: 150,
-    maxWidth: 200,
-    // borderRadius: 8,
-    marginHorizontal: 5
+    width: 160
   },
   image: {
     width: '100%',
-    // height: 150,
     borderRadius: 9,
     aspectRatio: 1
   },
