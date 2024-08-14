@@ -1,53 +1,92 @@
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '@/src/components/Header'
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import Colors from '@/src/constants/Colors'
 import Button from '@/src/components/Button'
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import { Tables } from '@/src/types'
+import api from '@/src/api'
+import { useAuth } from '@/src/providers/AuthProvider'
 
 const CounselorDetail = () => {
   const router = useRouter()
+  const [counselor, setCounselor] = useState<Tables<'profiles'> | null>()
   const { id } = useLocalSearchParams()
+  const stringId = typeof id === 'string' ? id : id[0]
+  const { profile } = useAuth()
+
+  useEffect(() => {(async () => {
+    const result = await api.getCounselor(stringId)
+
+    if (result.success) {
+      setCounselor(result.data)
+    } else {
+      setCounselor(null)
+    }
+  })()}, [] )
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Header title='About Counselor' />
         <View style={styles.body}>
-          <View style={styles.profileInfo}>
-            <Image
-              source={{uri: 'https://cdn.pixabay.com/photo/2018/05/16/15/13/businessman-3406030_960_720.jpg'}} 
-              style={styles.image}
-            />
-            <Text style={styles.name}>Mr Robot</Text>
-            <FontAwesome name='star' color={Colors.light.tint} size={24} />
-            <Text style={styles.qualifications}>Bsc. Computer Science. Founder Director & Chief Career Mentor of CareerACER</Text>
-            <View style={styles.audience}>
-              <Text style={styles.audienceItem}>Students</Text>
-              <Text style={styles.audienceItem}>Professionals</Text>
+        {
+          counselor === undefined
+          ? <View style={{height: '95%', justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size='large' color={Colors.light.tint} />  
             </View>
-          </View>
+          : counselor  === null
+          ? <View style={{height: '95%', justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 20, marginTop: -50}}>An Error Occured Try again later!</Text>  
+            </View>
+          :
+          <>
+          
+            <View style={styles.profileInfo}>
+              <Image
+                source={{uri: 'https://cdn.pixabay.com/photo/2018/05/16/15/13/businessman-3406030_960_720.jpg'}} 
+                style={styles.image}
+              />
+              <Text style={styles.name}>{counselor.full_name}</Text>
+              <View style={{flexDirection: 'row', gap: 5, marginVertical: 10}}>
+                {Array(counselor.ratings).fill(null).map((_, index) => (
+                  <FontAwesome name='star' color={Colors.light.tint} size={24} key={index}/>
+                ))}
+              </View>
+              <Text style={styles.qualifications}>{counselor.qualification} {counselor.field_of_study}.</Text> 
+              <Text style={styles.qualifications}>{counselor.position} at {counselor.company}</Text>
+              <View style={styles.audience}>
+                {counselor.target_audience?.split(',').map((item, index) => (
+                  <Text key={index} style={styles.audienceItem}>{item}</Text>
+                ))}
+              </View>
+            </View>
 
-          <View style={styles.services}>
-            <View style={styles.service}>
-              <Text style={styles.itemName}>Experience:</Text>
-              <Text style={styles.itemValue}>10+  years</Text>
+            <View style={styles.services}>
+              <View style={styles.service}>
+                <Text style={styles.itemName}>Experience:</Text>
+                <Text style={styles.itemValue}>{counselor.years_of_experience}  years</Text>
+              </View>
+              <View style={styles.service}>
+                <Text style={styles.itemName}>Counselling:</Text>
+                <Text style={styles.itemValue}>10 Sessions</Text>
+              </View>
+              <View style={styles.service}>
+                <Text style={styles.itemName}>Available on:</Text>
+                <Text style={styles.itemValue}>{counselor.available_hours}</Text>
+              </View>
             </View>
-            <View style={styles.service}>
-              <Text style={styles.itemName}>Counselling:</Text>
-              <Text style={styles.itemValue}>100 Sessions</Text>
-            </View>
-            <View style={styles.service}>
-              <Text style={styles.itemName}>Available on:</Text>
-              <Text style={styles.itemValue}>Monday to Friday (9:00AM to 7:00PM)</Text>
-            </View>
-          </View>
-
-          <View style={styles.actions}>
-            <Button title='Chat' onPress={() => router.navigate(`/counselor/${id}/chat`)}/>
-            <Button title='Book Appointment' onPress={() => {}} />
-          </View>
+            { profile?.id !== counselor.id && (
+              <View style={styles.actions}>
+                <Button title='Chat' onPress={() => router.navigate(`/counselor/${id}/chat`)}/>
+                <Button title='Book Appointment' onPress={() => {}} />
+              </View>
+              ) 
+            }
+          </>
+        }
         </View>
       </ScrollView>
     </SafeAreaView>

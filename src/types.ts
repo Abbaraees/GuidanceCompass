@@ -11,7 +11,7 @@ export type UpdateProfileDataTypes = {
   avatar_url: string | null
   date_of_birth: string | null
   field_of_study: string | null
-  field_of_work: string | null
+  company: string | null
   full_name: string | null
   institution: string | null
   position: string | null

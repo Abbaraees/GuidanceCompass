@@ -78,6 +78,31 @@ class GuidanceCompassApi {
     })
   }
 
+  async fetchCounselors() {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select("*")
+      .eq('role', 'counselor')
+      
+      
+    return new Promise<{success: boolean, data: Tables<'profiles'>[] | null}>((resolve) => {
+      resolve({success: !error, data: data})
+    })
+      
+  }
+
+  async getCounselor(id: string) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select("*")
+      .eq('id', id)
+      .single()
+      
+    return new Promise<{success: boolean, data: Tables<'profiles'> | null}>((resolve) => {
+      resolve({success: !error, data: data})
+    })
+  }
+
 }
 
 export default new GuidanceCompassApi()

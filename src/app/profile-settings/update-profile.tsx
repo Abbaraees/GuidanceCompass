@@ -79,13 +79,13 @@ const UpdateProfle = () => {
           <>
             <InputField
               label='Years of Experience'
-              value={viewModel?.institution}
-              onChange={(text) => viewModel?.setInstitution(text)}
+              value={viewModel?.years_of_experience}
+              onChange={(text) => viewModel?.setYearOfExperience(text)}
             />
             <InputField
-              label='Work Field'
-              value={viewModel?.field_of_work}
-              onChange={(text) => viewModel?.setFieldOfWork(text)}
+              label='Company'
+              value={viewModel?.company}
+              onChange={(text) => viewModel?.setCompany(text)}
             />
             <InputField
               label='Position'

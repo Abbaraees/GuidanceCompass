@@ -11,7 +11,7 @@ class UpateProfileViewModel {
   avatar_url: string | null = null
   date_of_birth: string | null = null
   field_of_study: string | null = null
-  field_of_work: string | null = null
+  company: string | null = null
   full_name: string | null = null
   institution: string | null = null
   position: string | null = null
@@ -27,7 +27,7 @@ class UpateProfileViewModel {
       this.avatar_url = profile.avatar_url
       this.date_of_birth = profile.date_of_birth
       this.field_of_study = profile.field_of_study
-      this.field_of_work = profile.field_of_work
+      this.company = profile.company
       this.full_name = profile.full_name
       this.institution = profile.institution
       this.position = profile.position
@@ -42,7 +42,7 @@ class UpateProfileViewModel {
   setAvatarUrl = (url: string) => this.avatar_url = url
   setDateOfBirth = (dob: string) => this.date_of_birth = dob
   setFieldOfStudy = (field: string) => this.field_of_study = field
-  setFieldOfWork = (field: string) => this.field_of_work = field
+  setCompany = (field: string) => this.company = field
   setFullName = (name: string) => this.full_name = name
   setInstitution = (institution: string) => this.institution = institution
   setPosition = (pos: string) => this.position = pos
@@ -62,7 +62,7 @@ class UpateProfileViewModel {
       avatar_url: this.avatar_url,
       date_of_birth: this.date_of_birth,
       field_of_study: this.field_of_study,
-      field_of_work: this.field_of_work,
+      company: this.company,
       full_name: this.full_name,
       institution: this.institution,
       position: this.position,
