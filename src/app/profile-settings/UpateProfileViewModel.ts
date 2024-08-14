@@ -1,6 +1,11 @@
 import api from "@/src/api"
 import { Tables, UpdateProfileDataTypes } from "@/src/types"
 import { makeAutoObservable } from "mobx"
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
+import { randomUUID } from 'expo-crypto'
+import supabase from '@/src/libs/supabase'
+import { decode } from 'base64-arraybuffer'
 
 class UpateProfileViewModel {
   updateSuccess: boolean = false
@@ -55,11 +60,12 @@ class UpateProfileViewModel {
   setUpdateMessage = (message: string | undefined) => this.updateMessage = message
  
   updateProfile = async () => {
+    const imagePath = await this.uploadImage()
     this.setUpdateError(false)
 
     const data: UpdateProfileDataTypes = { 
       available_hours: this.available_hours,
-      avatar_url: this.avatar_url,
+      avatar_url: imagePath ? imagePath : '',
       date_of_birth: this.date_of_birth,
       field_of_study: this.field_of_study,
       company: this.company,
@@ -80,6 +86,47 @@ class UpateProfileViewModel {
       this.setUpdateError(true)
       this.setUpdateMessage(result.message)
     }
+  }
+
+  pickImage = async () => {
+    const {canceled, assets} = await ImagePicker.launchImageLibraryAsync({
+      quality: 0.75,
+      allowsEditing: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images
+    })
+
+    if (!canceled) {
+      this.setAvatarUrl(assets[0].uri)
+    }
+  }
+
+
+  uploadImage = async () => {
+    if (!this.avatar_url?.startsWith('file://')) {
+      return
+    }
+
+    const base64 = await FileSystem.readAsStringAsync(this.avatar_url, {
+      encoding: 'base64'
+    })
+
+    const filePath = `${randomUUID()}.png`
+    const contentType =  'image/png'
+
+    const { data, error } = await supabase
+      .storage
+      .from('avatars')
+      .upload(filePath, decode(base64), {
+        contentType
+      })
+
+    if (data) {
+      const {data: {publicUrl}} = supabase.storage.from('avatars').getPublicUrl(data.path)
+      return publicUrl
+    }
+
+    return null
+
   }
 
 }

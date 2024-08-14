@@ -2,13 +2,14 @@ import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator } from 're
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Header from '@/src/components/Header'
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons'
 import Colors from '@/src/constants/Colors'
 import Button from '@/src/components/Button'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { Tables } from '@/src/types'
 import api from '@/src/api'
 import { useAuth } from '@/src/providers/AuthProvider'
+import { defaultAvatar } from '@/src/utils'
 
 const CounselorDetail = () => {
   const router = useRouter()
@@ -46,7 +47,7 @@ const CounselorDetail = () => {
           
             <View style={styles.profileInfo}>
               <Image
-                source={{uri: 'https://cdn.pixabay.com/photo/2018/05/16/15/13/businessman-3406030_960_720.jpg'}} 
+                source={{uri: counselor.avatar_url || defaultAvatar}} 
                 style={styles.image}
               />
               <Text style={styles.name}>{counselor.full_name}</Text>

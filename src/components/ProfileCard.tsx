@@ -1,22 +1,18 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router'
+import { Tables } from '../types'
+import { defaultAvatar } from '../utils'
 
-type ProfileCardPropsType = {
-  id: string | null, 
-  full_name: string | null, 
-  qualification: string | null, 
-  field_of_study: string | null
-}
 
-const ProfileCard = ({id, full_name, qualification, field_of_study}: ProfileCardPropsType) => {
+const ProfileCard = ({id, full_name, qualification, field_of_study, avatar_url}: Tables<'profiles'>) => {
   const router = useRouter()
   return (
     <Pressable onPress={() => router.push(`/counselor/${id}`)}>
 
       <View style={styles.container}>
         <Image
-          source={{uri: 'https://cdn.pixabay.com/photo/2018/05/16/15/13/businessman-3406030_960_720.jpg'}} 
+          source={{uri: avatar_url || defaultAvatar}} 
           style={styles.image}
         />
         <Text style={styles.name}>{full_name}</Text>

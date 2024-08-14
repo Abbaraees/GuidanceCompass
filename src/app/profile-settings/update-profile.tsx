@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, Text, View, Image, Alert } from 'react-native'
+import { StatusBar, StyleSheet, View, Image, Alert, Pressable } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Header from '@/src/components/Header'
@@ -8,6 +8,7 @@ import UpateProfileViewModel from './UpateProfileViewModel'
 import { useAuth } from '@/src/providers/AuthProvider'
 import { observer } from 'mobx-react'
 import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router'
+import { defaultAvatar } from '@/src/utils'
 
 const UpdateProfle = () => {
   const router = useRouter()
@@ -50,10 +51,12 @@ const UpdateProfle = () => {
     <KeyboardAwareScrollView style={styles.container}>
       <Header title={!isUpdating ? 'Complete Your Profile' : 'Profile'} />
       <View style={styles.body}>
-      <Image 
-          source={{uri: 'https://cdn.pixabay.com/photo/2017/03/27/12/11/boy-2178303_1280.jpg'}}
+      <Pressable onPress={viewModel.pickImage}>
+        <Image 
+          source={{uri: viewModel.avatar_url || defaultAvatar}}
           style={styles.profileImage}
         />
+      </Pressable>
         <InputField
           label='Full Name'
           value={viewModel?.full_name}

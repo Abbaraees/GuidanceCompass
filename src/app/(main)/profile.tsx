@@ -7,9 +7,12 @@ import { AntDesign, FontAwesome, MaterialCommunityIcons, MaterialIcons } from '@
 import Button from '@/src/components/Button'
 import { useRouter } from 'expo-router'
 import supabase from '@/src/libs/supabase'
+import { useAuth } from '@/src/providers/AuthProvider'
+import { defaultAvatar } from '@/src/utils'
 
 const ProfileLayout = () => {
   const router = useRouter()
+  const { profile } = useAuth()
   return (
     <SafeAreaView>
       <Header title='Profile' />
@@ -18,7 +21,7 @@ const ProfileLayout = () => {
 
         </View>
         <Image 
-          source={{uri: 'https://cdn.pixabay.com/photo/2017/03/27/12/11/boy-2178303_1280.jpg'}}
+          source={{uri: profile?.avatar_url || defaultAvatar}}
           style={styles.profileImage}
         />
         <View style={styles.profileSections}>
@@ -69,7 +72,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     borderRadius: 75,
-    zIndex: 10
+    zIndex: 10,
+    borderColor: 'lightgray',
+    borderWidth: 1
   },
   profileSections: {
     backgroundColor: '#fff',

@@ -56,10 +56,7 @@ const Counselors = () => {
               renderItem={({item}) => 
                 <View style={{flex: 1, marginVertical: 10}}>
                   <ProfileCard
-                    id={item.id}
-                    full_name={item.full_name}
-                    qualification={item.qualification}
-                    field_of_study={item.field_of_study}
+                    {...item}
                   />
                 </View>
               }
