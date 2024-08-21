@@ -1,16 +1,17 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 
 import { Text, View } from '@components/Themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/src/constants/Colors';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import Card from '@/src/components/Card';
-import { router } from 'expo-router';
+import { router, useRouter } from 'expo-router';
 import { useAuth } from '@/src/providers/AuthProvider';
 import { observer } from 'mobx-react';
 
 const Home = observer(() => {
   const { profile } = useAuth()
+  const router = useRouter()
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,7 +19,9 @@ const Home = observer(() => {
 
         <View style={styles.header} lightColor={Colors.light.tint}>
           <View style={styles.headerBtns} lightColor={Colors.light.tint}>
-            <AntDesign name='mail' color='#fff' size={24} />
+            <Pressable onPress={ () => router.push('/chats')}>
+              <AntDesign name='mail' color='#fff' size={24} />
+            </Pressable>
             <FontAwesome name='share-alt' color='#fff' size={24} />
             <FontAwesome name='search' color='#fff' size={24} />
           </View>
