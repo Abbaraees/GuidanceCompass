@@ -1,11 +1,11 @@
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
-
 import { Text, View } from '@components/Themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/src/constants/Colors';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import Card from '@/src/components/Card';
 import { router, useFocusEffect, useRouter } from 'expo-router';
+
 import { useAuth } from '@/src/providers/AuthProvider';
 import { observer } from 'mobx-react';
 import { useCallback, useState } from 'react';
@@ -50,7 +50,6 @@ const Home = observer(() => {
     fetchCounselors()
   }, []))
 
-  
 
   return (
     <SafeAreaView style={styles.container}>
