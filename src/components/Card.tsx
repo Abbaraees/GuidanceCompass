@@ -1,18 +1,18 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
 
 type CardProsType = {
-  title: string,
-  image: string,
+  title: string | null,
+  image: string | null,
   onPress: () => void
 }
 const Card = ({ title, image, onPress }: CardProsType) => {
   return (
     <Pressable onPress={onPress}>
       <View style={styles.card}>
-        <Image 
-          source={{ uri: image}}
+        {image && <Image 
+          source={{ uri: image }}
           style={styles.image}
-        />
+        />}
         <Text style={styles.title}>{title}</Text>
       </View>
     </Pressable>
@@ -23,7 +23,8 @@ export default Card
 
 const styles = StyleSheet.create({
   card: {
-    width: 160
+    width: 160,
+    marginBottom: 10
   },
   image: {
     width: '100%',
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign:'center',
     marginTop: 6
   }
