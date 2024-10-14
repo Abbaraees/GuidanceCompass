@@ -61,7 +61,7 @@ const Chats = () => {
           <FlatList
               data={chats}
               renderItem={({item}) => (
-                <Pressable onPress={() => router.push(`/chats/${item.id}`)}>
+                <Pressable onPress={() => router.push(`/chats/${item.id}?mode=existing`)}>
                   <ChatItem 
                     other={
                       item.chat_messages[0].sender.id !== profile.id
@@ -73,6 +73,7 @@ const Chats = () => {
               )}
               // onRefresh={fetchChats}
               // refreshing={isRefershing}
+              contentContainerStyle={{gap: 10}}
             />
         }
       </View>

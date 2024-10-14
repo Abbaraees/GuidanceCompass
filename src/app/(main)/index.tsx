@@ -36,6 +36,7 @@ const Home = observer(() => {
     const {data, error} = await supabase
       .from('profiles')
       .select('*')
+      .eq('role','counselor')
       .limit(4)
     if (!error) {
       setCounselors(data)
@@ -60,8 +61,8 @@ const Home = observer(() => {
             <Pressable onPress={ () => router.push('/chats')}>
               <AntDesign name='mail' color='#fff' size={24} />
             </Pressable>
-            <FontAwesome name='share-alt' color='#fff' size={24} />
-            <FontAwesome name='search' color='#fff' size={24} />
+            {/* <FontAwesome name='share-alt' color='#fff' size={24} />
+            <FontAwesome name='search' color='#fff' size={24} /> */}
           </View>
           <Text style={styles.greetingText} lightColor='#fff' darkColor='#efe'>Hi, {profile?.full_name}</Text>
         </View>

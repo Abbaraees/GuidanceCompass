@@ -81,7 +81,7 @@ const CounselorDetail = () => {
             </View>
             { profile?.id !== counselor.id && (
               <View style={styles.actions}>
-                <Button title='Chat' onPress={() => router.navigate(`/counselor/${id}/chat`)}/>
+                <Button title='Chat' onPress={() => router.push(`/chats/0?mode=start&userId=${id}`)}/>
                 <Button title='Book Appointment' onPress={() => {}} />
               </View>
               ) 
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
   },
   body: {
     width: '100%',
+    flex: 1
   },
   profileInfo: {
     alignItems: 'center',
